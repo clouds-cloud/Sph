@@ -3,9 +3,14 @@
     <Header/>
     <nav>
       我是根组件
+      <!-- <router-link to="/home" tag="button" replace >Home</router-link> |
+      <router-link to="/login" tag="button" replace >login</router-link> |
+      <router-link to="/register" tag="button" replace >register</router-link> |
+      <router-link to="/search" tag="button" replace >search</router-link>  -->
+      <router-view/>
       </nav>
-    <Footer/>
-    <router-view/>
+    <!-- <Footer v-show="$route.path=='/home'||$route.path=='/search'"></Footer> -->
+    <Footer v-show="$route.meta.isShow"></Footer>
   </div>
 </template>
 <script type='text/javascript'>
