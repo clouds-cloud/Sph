@@ -24,6 +24,10 @@ VueRouter.prototype.replace = function(location, resolve, reject) {
 const routes = [
     //重定向
     {
+        path: '',
+        redirect: '/home'
+    },
+    {
         path: '/home',
         name: 'home',
         component: HomeView,
