@@ -115,6 +115,12 @@ export default {
      }else if(category3id){
        query.category3Id = category3id;
      }
+
+     if(this.$route.params){
+      location.params = this.$route.params;
+      location.query = query;
+      this.$router.push(location)
+     }
   // console.log(location,query)
      location.query = query;
        console.log(location)
