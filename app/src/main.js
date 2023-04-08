@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 // import｛ reqCategoryList｝ from '@/axios'
 //三级联动组件--全局组件
-import TypeNav from '@/views/Home/TypeNav'
+import TypeNav from '@/components/TypeNav'
 import { reqCategoryList } from '@/api'
 // import { reqCategoryList } from '@/api/index';
 reqCategoryList();

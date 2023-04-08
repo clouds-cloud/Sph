@@ -2,7 +2,7 @@
   <div id="app">
     <Header/>
     <nav>
-      我是根组件
+
       <!-- <router-link to="/home" tag="button" replace >Home</router-link> |
       <router-link to="/login" tag="button" replace >login</router-link> |
       <router-link to="/register" tag="button" replace >register</router-link> |
