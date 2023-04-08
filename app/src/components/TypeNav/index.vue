@@ -25,13 +25,13 @@
                   </h3>
                   <!-- 二级、三级分类 -->
                   <div class="item-list clearfix" :style="{display:currentIndex ==index? 'block':'none'}">
-                    <div class="subitem" v-for="(c2,index) in c1.categoryChild " :key="c2.categoryId" >
+                    <div class="subitem" v-for="(c2) in c1.categoryChild " :key="c2.categoryId" >
                         <dl class="fore">
                             <dt>
                                 <a :data-categoryName=" c2.categoryName" :data-category2Id="c2.categoryId">{{c2.categoryName}}</a>
                             </dt>
                             <dd>
-                                <em v-for="(c3,index) in c2.categoryChild" :key="c3.categoryId">
+                                <em v-for="(c3) in c2.categoryChild" :key="c3.categoryId">
                                     <a :data-category3Id="c3.categoryId" :data-categoryName=" c3.categoryName">{{c3.categoryName}}</a>
                                 </em>
 
