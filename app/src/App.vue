@@ -22,6 +22,9 @@ export default{
   components:{
     Header,
     Footer
+  },
+  mounted(){
+    this.$store.dispatch('categoryList');
   }
 }
 </script>

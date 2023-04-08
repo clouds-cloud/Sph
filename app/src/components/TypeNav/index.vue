@@ -2,7 +2,7 @@
   <div class="type-nav">
     <!-- <h1>{{ categoryList }}</h1> -->
     <div class="container">
-      <div @mouseleave="leaveIndex">
+      <div @mouseleave="leaveIndex" @mouseenter="enterShow">
         <h2 class="all">全部商品分类</h2>
         <nav class="nav">
             <a href="###">服装城</a>
@@ -15,7 +15,9 @@
             <a href="###">秒杀</a>
         </nav>
         <!-- 三级联动 -->
-        <div class="sort">
+        <!-- 过渡动画 -->
+        <transition name="sort">
+          <div class="sort" v-show="show">
             <div class="all-sort-list2" @click="gosearch" >
                 <div class="item" v-for="(c1,index) in categoryList" :key="c1.categoryId" :class="{cur:currentIndex==index}">
                   <h3 @mouseenter="changeIndex(index)" >
@@ -40,6 +42,8 @@
                 </div>
             </div>
         </div>
+        </transition>
+       
       </div>
     </div>
 </div>
@@ -52,16 +56,22 @@ import {mapState} from 'vuex'
 import {throttle} from "lodash"
 // console.log(_)
 export default {
-  name: 'TypeNav',
+  name: 'typeNav',
 
   data() {
     return {
       //存储鼠标点击一级分类索引
-      currentIndex:-1
+      currentIndex:-1,
+      show:true
     };
   },
   mounted(){
-    this.$store.dispatch('categoryList')
+    // this.$store.dispatch('categoryList');
+    // console.log(this.$route)
+    if(this.$route.name=='search'){
+    this.show = false;
+      
+    }
   },
   methods: {
     // changeIndex(i){//修改为ES5写法
@@ -77,6 +87,12 @@ export default {
     ,
     leaveIndex(){
       this.currentIndex = -1;
+      if(this.$route.name=='search'){
+      this.show = false}
+
+    },
+    enterShow(){
+      this.show = true
     },
     gosearch(event){
       // this.$router.push('/search')
@@ -144,6 +160,7 @@ export default {
               font-size: 16px;
               color: #333;
           }
+          margin-left: 200px;
       }
 
       .sort {
@@ -239,6 +256,16 @@ export default {
             background: skyblue;
           }
           }
+      }
+      /*过渡动画样式*/
+      .sort-enter{
+        height: 0px;
+      }
+      .sort-enter-to{
+        height: 461px;
+      }
+      .sort-enter-active{
+        transition: all .5s linear;
       }
   }
 }
