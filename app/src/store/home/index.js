@@ -26,21 +26,21 @@ export default {
             if (result.code == 200) {
                 commit("CATEGORYLIST", result.data);
             }
-            console.log(result)
+            // console.log(result)
         },
         async getBannerList({ commit }) {
             let result = await reqGetBannerList();
             if (result.code == 200) {
                 commit("GETBANNERLIST", result.data);
             }
-            console.log(result)
+            // console.log(result)
         },
         async getFloorList({ commit }) {
             let result = await reqGetFloorList();
             if (result.code == 200) {
                 commit("GETFLOORLIST", result.data);
             }
-            console.log(result)
+            // console.log(result)
         }
 
     },

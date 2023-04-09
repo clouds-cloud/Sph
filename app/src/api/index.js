@@ -7,3 +7,5 @@ import mockRequests from './mockAjax';
 export const reqCategoryList = () => requests({ url: '/api/product/getBaseCategoryList', method: 'get' })
 export const reqGetBannerList = () => mockRequests({ url: '/banner', method: 'get' })
 export const reqGetFloorList = () => mockRequests({ url: '/floor', method: 'get' })
+    //获取搜索模块数据
+export const reqSearchList = (params) => requests({ url: '/api/list', method: 'post', data: params })

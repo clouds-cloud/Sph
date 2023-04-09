@@ -10,9 +10,13 @@ import Carousel from '@/components/Carousel'
 
 //引入swiper样式
 import 'swiper/css/swiper.css'
-import { reqCategoryList } from '@/api'
+// import { reqCategoryList } from '@/api'
 // import { reqCategoryList } from '@/api/index';
-reqCategoryList();
+
+// import { reqSearchList } from '@/api'
+console.log
+    // reqCategoryList();
+    // console.log(reqSearchList({})),
 Vue.config.productionTip = false
 Vue.component(typeNav.name, typeNav);
 Vue.component(Carousel.name, Carousel);

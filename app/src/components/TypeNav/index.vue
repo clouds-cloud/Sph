@@ -1,8 +1,8 @@
 <template>
   <div class="type-nav">
     <!-- <h1>{{ categoryList }}</h1> -->
-    <div class="container">
-      <div @mouseleave="leaveIndex" @mouseenter="enterShow">
+    <div class="container" @mouseleave="leaveIndex" @mouseenter="enterShow">
+      <!-- <div @mouseleave="leaveIndex" @mouseenter="enterShow"> -->
         <h2 class="all">全部商品分类</h2>
         <nav class="nav">
             <a href="###">服装城</a>
@@ -44,7 +44,7 @@
         </div>
         </transition>
        
-      </div>
+      <!-- </div> -->
     </div>
 </div>
 </template>
@@ -166,7 +166,7 @@ export default {
               font-size: 16px;
               color: #333;
           }
-          margin-left: 200px;
+   
       }
 
       .sort {
