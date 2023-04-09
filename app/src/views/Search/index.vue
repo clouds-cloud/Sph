@@ -41,40 +41,44 @@ export default {
               <!-- {{ goodsList }} -->
             </li>
           </ul>
+          <!-- bread -->
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
-          </ul>
+            <li class="with-x" v-if="searchParams.categoryName">{{searchParams.categoryName}}<i @click="delCtegoryName">×</i></li>
+            <li class="with-x" v-if="searchParams.keyword">{{searchParams.keyword}}<i @click="delKeyword">×</i></li>
+            <li class="with-x" v-if="searchParams.trademark">{{searchParams.trademark.split(":")[1] }}<i @click="deltrademark">×</i></li>
+            <li class="with-x" v-for="(attrValue,index) in searchParams.props" :key="index">{{attrValue.split(":")[1]}}<i @click="delattrValue(index)">×</i></li>
+        </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
 
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
-              <!-- 价格 -->
+              <!-- 价格   排序的结构-->
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{active: isOne}" @click="changeOrder('1')">
+                  <a>综合<span v-show="isOne" class="iconfont"
+                    :class="{ 'icon-up1': isAcs, 'icon-DOWN': isDesc }"></span></a>
+                </li>
+                <!-- <li>
+                  <a >销量</a>
                 </li>
                 <li>
-                  <a href="#">销量</a>
+                  <a >新品</a>
                 </li>
                 <li>
-                  <a href="#">新品</a>
+                  <a >评价</a>
                 </li>
                 <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                  <a>价格⬆</a>
+                </li> -->
+                <li :class="{active: isTwo}" @click="changeOrder('2')">
+                  <a>价格<span v-show="isTwo"
+                    class="iconfont"
+                    :class="{ 'icon-up1': isAcs, 'icon-DOWN': isDesc }"></span></a>
                 </li>
               </ul>
             </div>
@@ -108,35 +112,12 @@ export default {
             </ul>
           </div>
           <!-- 分页器 -->
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <Pagination  
+          :pageNo="searchParams.pageNo"
+          :pageSize="searchParams.pageSize"
+          :total="total"
+          :continues="4"
+          @getPageNo="getPageNo"/>
         </div>
       </div>
     </div>
@@ -144,11 +125,10 @@ export default {
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters,mapState} from 'vuex'
   import SearchSelector from './SearchSelector/SearchSelector'
   export default {
     name: 'Search',
-
     components: {
       SearchSelector
     },
@@ -162,32 +142,132 @@ export default {
       "categoryName": "",
       //关键字
       "keyword": "",
-      "order": "",
+      "order": "1:desc",
       "pageNo": 1,
       "pageSize": 10,
       "props": [],
-      "trademark": ""
-}
+      "trademark": "",
+      },
+      isActive:true
      }
     },
     beforeMount(){
-      console.log(this.$route.query)
+      // console.log(this.$route.query)
       Object.assign(this.searchParams,this.$route.query,this.$route.params)
-    }
-    ,
+      console.log('发请求之前',this.searchParams)
+      console.log(this.$route)
+    },
     mounted(){
     //派发action，通过vuex发起Ajax请求，将数据存储在仓库当中
     this.getData();
   },
   computed:{
-    ...mapGetters(['goodsList','attrsList','trademarkList'])
+    ...mapGetters(['goodsList','attrsList','trademarkList']),
+    isOne() {
+      return this.searchParams.order.includes("1");
+    },
+    isTwo() {
+      return this.searchParams.order.includes("2");
+    },
+    isAcs() {
+      return this.searchParams.order.includes("asc");
+    },
+    isDesc() {
+      return this.searchParams.order.includes("desc");
+    },
+    //获取search模块展示产品一共多少数据
+    ...mapState({
+    total: (state) => state.search.searchList.total,
+    }),
   },
   methods:{
-
     getData(){
       this.$store.dispatch('getsearchList',this.searchParams);
+    },
+    delCtegoryName(){
+      this.searchParams.categoryName = undefined;
+      this.searchParams.category1Id = undefined;//不带给服务器
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
+      this.getData();
+      //修改地址栏
+      if (this.$route.params) {
+        this.$router.push({ name: "search", params: this.$route.params });
+      }
+    },
+    delKeyword(){
+      this.searchParams.keyword = undefined;
+      this.searchParams.category1Id = undefined;//不带给服务器
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
+      this.getData();
+      //修改地址栏
+      if (this.$route.query) {
+        this.$router.push({ name: "search", query: this.$route.query });
+      }
+        //通知兄弟组件Header清除关键字
+        this.$bus.$emit("clearkeyword");
+    },
+    trademarkInfo(tradeMark){
+      // console.log('父组件：',tradeMark)
+      this.searchParams.trademark = `${tradeMark.tmId}:${tradeMark.tmName}`
+      this.getData();
+      // this.searchParams.trademark = ''
+    },
+    deltrademark(){
+      this.searchParams.trademark = undefined
+      this.getData();
+    },
+    //收集平台属性的回调函数，自定义事件
+    attrInfo(attr,attrValue){
+     let props=`${attr.attrId}:${attrValue}:${attr.attrName}`;
+     if(this.searchParams.props.indexOf(props)==-1){
+      this.searchParams.props.push(props)
+     }
+       console.log(`${attr.attrId}:${attrValue}:${attr.attrName}`);
+       this.getData();
 
-    }
+      //  console.log(attr.attrId);
+      //  console.log(attrValue);
+    },
+    delattrValue(index){
+      this.searchParams.props.splice(index,1)
+      this.getData();
+
+    },
+    changeOrder(flag){
+      let orginOrder = this.searchParams.order; //初始状态的order
+      let orginFlag = this.searchParams.order.split(":")[0]; //初始状态的order是1还是2
+      let orginSort = this.searchParams.order.split(":")[1]; //初始状态的order是desc还是asc
+      let newOrder = ""; //准备一个新的order
+      if (flag == orginFlag) {
+        //点击综合的话flag就是1初始状态的也是1进入循环
+        newOrder = `${orginFlag}:${orginSort == "desc" ? "asc" : "desc"}`; //点击如果是升序就变成降序,如果是将降序就变成升序
+      } else {
+        newOrder = `${flag}:${"desc"}`; //点击价格后flag变成2了，直接改为desc,originflag也变成2了，所以还是会走if里面的判断
+      }
+      this.searchParams.order = newOrder; //将新的order赋予searchParams
+      this.getData(); //再次发送请求
+    },
+    // 自定义事件的回调函数---获取当前第几页
+    getPageNo(pageNo) {
+      // console.log(pageNo);
+      //整理带给服务器参数
+      this.searchParams.pageNo = pageNo;
+      // 再次发送请求
+      this.getData();
+    },
+  },
+  watch:{
+     $route(newValue, oldValue){
+      Object.assign(this.searchParams,this.$route.query,this.$route.params)
+      //再次发起Ajax请求
+      this.getData();
+         // 每一次请求完毕，应该把相应的1、2、3级分类的id置空的，让他接受下一次的相应1、2、3id
+      this.searchParams.category1Id = undefined;//不带给服务器
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
+     }
   }
   }
 </script>
@@ -435,7 +515,7 @@ export default {
           }
         }
 
-        .page {
+        /*.page {
           width: 733px;
           height: 66px;
           overflow: hidden;
@@ -520,7 +600,7 @@ export default {
               width: 241px;
             }
           }
-        }
+        }*/
       }
     }
   }
