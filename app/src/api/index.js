@@ -14,3 +14,4 @@ export const reqSearchList = (params) =>
         method: 'post',
         data: params
     });
+export const reqDetailInfo = (skuId) => requests({ url: `/item/${skuId}`, method: 'get' })

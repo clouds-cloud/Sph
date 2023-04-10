@@ -1,37 +1,36 @@
 <template>
   <div class="detail">
     <!-- 商品分类导航 -->
-    <TypeNav />
+    <!-- <type-nav /> -->
 
     <!-- 主要内容区域 -->
     <section class="con">
       <!-- 导航路径区域 -->
       <div class="conPoin">
-        <span>手机、数码、通讯</span>
-        <span>手机</span>
-        <span>Apple苹果</span>
-        <span>iphone 6S系类</span>
+        <span v-show="categoryView.category1Name">{{ categoryView.category1Name}}</span>
+        <span v-show="categoryView.category2Name">{{ categoryView.category2Name}}</span>
+        <span v-show="categoryView.category3Name">{{ categoryView.category3Name}}</span>
       </div>
       <!-- 主要内容区域 -->
       <div class="mainCon">
         <!-- 左侧放大镜区域 -->
-        <div class="previewWrap">
+        <div class="previewWrap" >
           <!--放大镜效果-->
-          <Zoom />
+          <Zoom :skuImg="skuInfo.skuDefaultImg" />
           <!-- 小图列表 -->
-          <ImageList />
+          <ImageList :skuImgList="skuInfo.skuImageList||[]"/>
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
           <div class="goodsDetail">
-            <h3 class="InfoName">Apple iPhone 6s（A1700）64G玫瑰金色 移动通信电信4G手机</h3>
-            <p class="news">推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返</p>
+            <h3 class="InfoName">{{skuInfo.skuName}}</h3>
+            <p class="news">{{skuInfo.skuDesc}}</p>
             <div class="priceArea">
               <div class="priceArea1">
                 <div class="title">价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格</div>
                 <div class="price">
                   <i>¥</i>
-                  <em>5299</em>
+                  <em>{{skuInfo.price}}</em>
                   <span>降价通知</span>
                 </div>
                 <div class="remark">
@@ -64,30 +63,11 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl>
-                <dt class="title">选择颜色</dt>
-                <dd changepirce="0" class="active">金色</dd>
-                <dd changepirce="40">银色</dd>
-                <dd changepirce="90">黑色</dd>
+              <dl v-for="(saleAttr) in skuSaleAttrValueList" :key="saleAttr.id">
+                <dt class="title">{{saleAttr.saleAttrName }}</dt>
+                <dd changepirce="0" class="active">{{saleAttr.saleAttrValueName}}</dd>
               </dl>
-              <dl>
-                <dt class="title">内存容量</dt>
-                <dd changepirce="0" class="active">16G</dd>
-                <dd changepirce="300">64G</dd>
-                <dd changepirce="900">128G</dd>
-                <dd changepirce="1300">256G</dd>
-              </dl>
-              <dl>
-                <dt class="title">选择版本</dt>
-                <dd changepirce="0" class="active">公开版</dd>
-                <dd changepirce="-1000">移动版</dd>
-              </dl>
-              <dl>
-                <dt class="title">购买方式</dt>
-                <dd changepirce="0" class="active">官方标配</dd>
-                <dd changepirce="-240">优惠移动版</dd>
-                <dd changepirce="-390">电信优惠版</dd>
-              </dl>
+             
             </div>
             <div class="cartWrap">
               <div class="controls">
@@ -347,6 +327,7 @@
 </template>
 
 <script>
+  import {mapGetters,mapState} from 'vuex'
   import ImageList from './ImageList/ImageList'
   import Zoom from './Zoom/Zoom'
 
@@ -356,8 +337,15 @@
     components: {
       ImageList,
       Zoom
+    },
+    mounted(){
+      this.$store.dispatch('getDetailInfo',this.$route.params.id);
+      // console.log(this.$route.params)
+    }, 
+    computed:{
+      ...mapGetters(['categoryView','skuInfo','spuSaleAttrList','skuSaleAttrValueList']),
     }
-  }
+    }
 </script>
 
 <style lang="less" scoped>

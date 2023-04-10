@@ -5,6 +5,7 @@ export default {
         categoryList: [],
         bannerList: [],
         floorList: [],
+
     },
     mutations: {
         CATEGORYLIST(state, categoryList) {
@@ -17,6 +18,7 @@ export default {
         GETFLOORLIST(state, floorList) {
             state.floorList = floorList;
         },
+
     },
     actions: {
 
@@ -41,7 +43,8 @@ export default {
                 commit("GETFLOORLIST", result.data);
             }
             // console.log(result)
-        }
+        },
+
 
     },
     getters: {}
