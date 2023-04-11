@@ -1,18 +1,55 @@
 <template>
   <div class="spec-preview">
     <img :src="skuImg" />
-    <div class="event"></div>
+    <div class="event" @mousemove="handler"></div>
     <div class="big">
-      <img :src="skuImg"  />
+      <img :src="skuImg" ref="big"/>
     </div>
-    <div class="mask"></div>
+    <div class="mask" ref="mask"></div>
   </div>
 </template>
 
 <script>
   export default {
     name: "Zoom",
-    props:['skuImg']
+    props:['skuImg'],
+    mounted(){
+      //全局事件总线，获取兄弟组件传来的索引值
+      this.$bus.$on('getIndex',(imgU)=>{
+         this.skuImg = imgU
+      })
+    },
+    data(){
+      return{
+
+      }
+    },
+    methods:{
+      handler(event){
+      let mask = this.$refs.mask;
+      let big = this.$refs.big;
+
+      let left = event.offsetX - mask.offsetWidth/2;
+      let top = event.offsetY - mask.offsetHeight/2;
+      if(left <= 0){
+        left = 0;
+      }
+      if(top <= 0){
+        top = 0;
+      }
+      if(left >= mask.offsetWidth){
+        left =  mask.offsetWidth;
+      }
+      if(top >= mask.offsetHeight){
+        top =  mask.offsetHeight;
+      }
+      mask.style.top = top +'px';
+      mask.style.left = left +'px'
+      big.style.top = -2 *top +'px'
+      big.style.left = -2 *left +'px'
+
+      }
+    }
   }
 </script>
 

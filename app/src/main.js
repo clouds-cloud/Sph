@@ -14,13 +14,15 @@ import 'swiper/css/swiper.css'
 // import { reqCategoryList } from '@/api'
 // import { reqCategoryList } from '@/api/index';
 
+import { reqCartList } from '@/api/index';
+
 // import { reqSearchList } from '@/api'
 import { reqDetailInfo } from '@/api'
 
-console.log
-reqDetailInfo();
-// reqCategoryList();
-// console.log(reqSearchList({})),
+console.log(reqCartList())
+    // reqDetailInfo();
+    // reqCategoryList();
+    // console.log(reqSearchList({})),
 Vue.config.productionTip = false
 Vue.component(typeNav.name, typeNav);
 Vue.component(Carousel.name, Carousel);

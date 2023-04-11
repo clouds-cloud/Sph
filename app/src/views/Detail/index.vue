@@ -59,24 +59,24 @@
               </div>
             </div>
           </div>
-
+<!-- 选择商品区域 -->
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl v-for="(saleAttr) in skuSaleAttrValueList" :key="saleAttr.id">
+              <dl v-for="(saleAttr) in spuSaleAttrList" :key="saleAttr.id">
                 <dt class="title">{{saleAttr.saleAttrName }}</dt>
-                <dd changepirce="0" class="active">{{saleAttr.saleAttrValueName}}</dd>
+                <dd changepirce="0" :class="{active:spuSaleAttr.isChecked ==1}" v-for="(spuSaleAttr,index) in saleAttr.spuSaleAttrValueList" :key="index"  @click="changeActive(spuSaleAttr,saleAttr.spuSaleAttrValueList)">{{spuSaleAttr.saleAttrValueName }}</dd>
               </dl>
              
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt">
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" class="itxt" v-model="skuNum" @change="changeSkuNum" > 
+                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                <a href="javascript:" class="mins" @click="skuNum <= 1 || skuNum--">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="addShopCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -333,7 +333,11 @@
 
   export default {
     name: 'Detail',
-    
+    data(){
+      return{
+        skuNum:1
+      }
+    },
     components: {
       ImageList,
       Zoom
@@ -343,7 +347,33 @@
       // console.log(this.$route.params)
     }, 
     computed:{
-      ...mapGetters(['categoryView','skuInfo','spuSaleAttrList','skuSaleAttrValueList']),
+      ...mapGetters(['categoryView','skuInfo','spuSaleAttrList',]),
+    },
+    methods: {
+      changeActive(spuSaleAttr,spuSaleAttrValueList){
+        spuSaleAttrValueList.forEach(item => {
+          item.isChecked = 0;
+        });
+        spuSaleAttr.isChecked = 1
+      },
+      changeSkuNum(event){
+        let value = event.target.value*1;
+        if(isNaN(value)||value <1){
+          this.skuNum = 1;
+        }else{
+          this.skuNum = parseInt(value)
+        }
+      },
+     async addShopCart(){
+     try {
+      await this.$store.dispatch('getAddOrUpdateShopCart',{skuId:this.$route.params.id,skuNum:this.skuNum});
+      sessionStorage.setItem("SKUINFO",JSON.stringify(this.skuInfo))
+      this.$router.push({name:'addCartSuccess',query:{skuNum:this.skuNum}})
+      // 
+        } catch (error) {
+      alert(error.message)
+        }  
+      }
     }
     }
 </script>
