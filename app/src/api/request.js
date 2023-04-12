@@ -1,7 +1,7 @@
 import axios from 'axios'
 //引入进度条
 import nprogress from 'nprogress'
-
+import store from '@/store'
 //引入进度条样式
 import "nprogress/nprogress.css"
 //request.js是创造axios的实例和axios的拦截器以及发送真正的网络请求的地方
@@ -14,6 +14,11 @@ const requests = axios.create({
 
 //2、axios拦截器
 requests.interceptors.request.use(config => {
+    // console.log(store.state.detail.uuid_token)
+    if (store.state.detail.uuid_token) {
+        //字段后端已经写好
+        config.headers.userTempId = store.state.detail.uuid_token;
+    }
     nprogress.start();
     return config
 }, err => {

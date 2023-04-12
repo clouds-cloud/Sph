@@ -1,11 +1,13 @@
 import { reqDetailInfo, reqAddOrUpdateShopCart } from '@/api';
-
+//封装游客身份模块
+import { getUUID } from '@/utils/uuid_token';
 export default {
 
     state: {
         name: 'detail',
         detailInfo: {},
-        ShopCartInfo: {}
+        ShopCartInfo: {},
+        uuid_token: getUUID()
     },
     mutations: {
         GETDETAILINFO(state, detailInfo) {

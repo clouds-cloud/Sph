@@ -19,7 +19,7 @@ export default {
             if (result.code == 200) {
                 commit("SEARCHLIST", result.data);
             }
-            console.log(result)
+            // console.log(result)
         },
     },
     getters: {
