@@ -16,7 +16,7 @@ const routes = [
         name: 'login',
         component: () =>
             import ( /* webpackChunkName: "about" */ '../views/Login'),
-        meta: { isShow: true }
+        meta: { isShow: false }
     },
     {
         path: '/register',

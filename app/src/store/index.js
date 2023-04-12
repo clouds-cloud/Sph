@@ -5,7 +5,7 @@ import search from './search'
 import detail from './detail'
 import shopCart from './shopCart'
 import { reqCategoryList } from '@/api';
-
+import user from './user';
 Vue.use(Vuex)
 const state = {
     // count: 1
@@ -34,6 +34,7 @@ export default new Vuex.Store({
         home,
         search,
         detail,
-        shopCart
+        shopCart,
+        user
     }
 })

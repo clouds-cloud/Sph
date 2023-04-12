@@ -23,3 +23,8 @@ export const reqCartList = () => requests({ url: '/cart/cartList', method: 'get'
 export const reqDeleteCart = (skuId) => requests({ url: `/cart/deleteCart/${skuId}`, method: 'delete' })
     // 7.切换商品选中状态
 export const reqcheckCart = (skuId, isChecked) => requests({ url: `/cart/checkCart/${skuId}/${isChecked}`, method: 'get' })
+    //获取验证码
+export const reqCode = (phone) => requests({ url: `/user/passport/sendCode/${phone}`, method: 'get' })
+    //15.注册用户
+export const reqRegister = (data) => requests({ url: `/user/passport/register`, data, method: 'post' })
+    //登录业务
