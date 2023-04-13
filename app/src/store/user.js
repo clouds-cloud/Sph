@@ -1,4 +1,4 @@
-import { reqCode, reqRegister, reqLogin, reqUserInfo } from '@/api';
+import { reqCode, reqRegister, reqLogin, reqUserInfo, reqLogOut } from '@/api';
 import { setToken, getToken } from '@/utils/token';
 export default {
 
@@ -18,6 +18,11 @@ export default {
         },
         GETUSERINFO(state, userInfo) {
             state.userInfo = userInfo
+        },
+        CLEARUSRE(state) {
+            state.token = '',
+                state.userInfo = {},
+                localStorage.removeItem('TOKEN')
         }
     },
     actions: {
@@ -37,7 +42,7 @@ export default {
                 // console.log(result)
                 return 'ok';
             } else {
-                alert('失败')
+                // alert('失败')
                 return Promise.reject(new Error('fail'))
             }
         },
@@ -50,7 +55,7 @@ export default {
                 console.log(result)
                 return 'ok';
             } else {
-                alert('失败')
+                // alert('失败')
                 return Promise.reject(new Error('fail'))
             }
         },
@@ -61,11 +66,21 @@ export default {
                 console.log(result)
                 return 'ok';
             } else {
-                alert('失败')
-                    // return Promise.reject(new Error('fail'))
+                // alert('失败')
+                // return Promise.reject(new Error('fail'))
             }
         },
-
+        async userLogOut({ commit }) {
+            let result = await reqLogOut();
+            if (result.code == 200) {
+                commit("CLEARUSRE", result.data);
+                console.log(result)
+                return 'ok';
+            } else {
+                // alert('失败')
+                return Promise.reject(new Error('fail'))
+            }
+        }
     },
     getters: {
         // cartList(state) {

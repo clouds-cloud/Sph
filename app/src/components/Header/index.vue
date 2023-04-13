@@ -16,7 +16,7 @@
                         <p v-else>
                           <span>欢迎</span>
                           <a >{{isShow}}</a> 
-                          <a  class="register" >退出登录</a> 
+                          <a  class="register" @click="logOut">退出登录</a> 
 
                           <!-- <a href="###">登录</a> -->
                      
@@ -86,7 +86,18 @@ export default {
         this.$router.push(location);
       }
       
-    }  },
+    } ,
+    //退出登录
+   async logOut(){
+      try {
+     await this.$store.dispatch('userLogOut')
+     this.$router.push('/home')
+        
+      } catch (error) {
+        
+      }
+    } 
+  },
     mounted(){
     // 通过全局事件总线清除关键字
       this.$bus.$on('clearkeyword', () => {

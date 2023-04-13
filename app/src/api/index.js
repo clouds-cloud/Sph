@@ -31,3 +31,4 @@ export const reqRegister = (data) => requests({ url: `/user/passport/register`, 
 export const reqLogin = (data) => requests({ url: `/user/passport/login`, data, method: 'post' })
     //token校验
 export const reqUserInfo = () => requests({ url: `/user/passport/auth/getUserInfo`, method: 'get' })
+export const reqLogOut = () => requests({ url: `/user/passport/logout`, method: 'get' })
