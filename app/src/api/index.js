@@ -32,3 +32,9 @@ export const reqLogin = (data) => requests({ url: `/user/passport/login`, data, 
     //token校验
 export const reqUserInfo = () => requests({ url: `/user/passport/auth/getUserInfo`, method: 'get' })
 export const reqLogOut = () => requests({ url: `/user/passport/logout`, method: 'get' })
+    //获取地址信息
+export const reqAddressInfo = () => requests({ url: `/user/userAddress/auth/findUserAddressList`, method: 'get' })
+    //获取订单交易页信息
+export const reqOrderInfo = () => requests({ url: `/order/auth/trade`, method: 'get' })
+
+export const reqPayment = (orderId) => requests({ url: `/payment/weixin/createNative/${orderId}`, method: 'get' })

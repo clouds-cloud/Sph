@@ -3,28 +3,12 @@
     <h3 class="title">填写并核对订单信息</h3>
     <div class="content">
       <h5 class="receive">收件人信息</h5>
-      <div class="address clearFix">
-        <span class="username selected">张三</span>
+      <div class="address clearFix" v-for="(address,index) in addressInfo" :key="address.id">
+        <span class="username  " :class="{selected:address.isDefault==1}" @click="changeDefault(address,addressInfo)">{{ address.consignee }}</span>
         <p>
-          <span class="s1">北京市昌平区宏福科技园综合楼6层</span>
-          <span class="s2">15010658793</span>
-          <span class="s3">默认地址</span>
-        </p>
-      </div>
-      <div class="address clearFix">
-        <span class="username selected">李四</span>
-        <p>
-          <span class="s1">北京市昌平区宏福科技园综合楼6层</span>
-          <span class="s2">13590909098</span>
-          <span class="s3">默认地址</span>
-        </p>
-      </div>
-      <div class="address clearFix">
-        <span class="username selected">王五</span>
-        <p>
-          <span class="s1">北京市昌平区宏福科技园综合楼6层</span>
-          <span class="s2">18012340987</span>
-          <span class="s3">默认地址</span>
+          <span class="s1" >{{ address.userAddress }}</span>
+          <span class="s2">{{ address.phoneNum }}</span>
+          <span v-show="address.isDefault==1" class="s3">默认地址</span>
         </p>
       </div>
       <div class="line"></div>
@@ -108,9 +92,9 @@
       <div class="price">应付金额:　<span>¥5399.00</span></div>
       <div class="receiveInfo">
         寄送至:
-        <span>北京市昌平区宏福科技园综合楼6层</span>
-        收货人：<span>张三</span>
-        <span>15010658793</span>
+        <span>{{ userDefaultAddress.userAddress }}</span>
+        收货人：<span>{{ userDefaultAddress.consignee }}</span>
+        <span>{{ userDefaultAddress.phoneNum }}</span>
       </div>
     </div>
     <div class="sub clearFix">
@@ -120,8 +104,29 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   export default {
     name: 'Trade',
+    mounted(){
+      this.$store.dispatch('getUserAddress');
+      this.$store.dispatch('getOrderInfo');
+    },
+    computed:{
+      ...mapState({
+        addressInfo:state=>state.trade.address
+      }),
+      userDefaultAddress(){
+        return this.addressInfo.find(item =>item.isDefault==1)
+      }
+    },
+    methods:{
+      changeDefault(address,addressInfo){
+        addressInfo.forEach(item => {
+          item.isDefault=0
+        });
+        address.isDefault=1;
+      }
+    }
   }
 </script>
 

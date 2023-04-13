@@ -42,7 +42,7 @@ router.beforeEach(async(to, from, next) => {
     //     if (to.path == '/login') {
     //         next('/')
     //     } else {
-    //         next()
+    // next()
     //     }
 
     // } else {
@@ -53,6 +53,7 @@ router.beforeEach(async(to, from, next) => {
     //     }
 
     // }
+
     if (token) {
         //已经登录而且还想去登录------不行
         if (to.path == "/login") {
