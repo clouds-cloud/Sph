@@ -28,3 +28,6 @@ export const reqCode = (phone) => requests({ url: `/user/passport/sendCode/${pho
     //15.注册用户
 export const reqRegister = (data) => requests({ url: `/user/passport/register`, data, method: 'post' })
     //登录业务
+export const reqLogin = (data) => requests({ url: `/user/passport/login`, data, method: 'post' })
+    //token校验
+export const reqUserInfo = () => requests({ url: `/user/passport/auth/getUserInfo`, method: 'get' })

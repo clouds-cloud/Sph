@@ -45,7 +45,6 @@ export default {
             // console.log(result)
         },
 
-
     },
     getters: {}
 }

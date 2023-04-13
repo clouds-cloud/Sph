@@ -6,13 +6,22 @@
                 <div class="container">
                     <div class="loginList">
                         <p>尚品汇欢迎您！</p>
-                        <p>
+                        <p v-if="!isShow"> 
                             <span>请</span>
                             <router-link to="/login"  replace >登录</router-link> 
                             <!-- <a href="###">登录</a> -->
                             <router-link to="/register" class="register" replace >免费注册</router-link> 
                             <!-- <a href="###" class="register">免费注册</a> -->
                         </p>
+                        <p v-else>
+                          <span>欢迎</span>
+                          <a >{{isShow}}</a> 
+                          <a  class="register" >退出登录</a> 
+
+                          <!-- <a href="###">登录</a> -->
+                     
+                          <!-- <a href="###" class="register">免费注册</a> -->
+                      </p>
                     </div>
                     <div class="typeList">
                         <a href="###">我的订单</a>
@@ -51,7 +60,7 @@ export default {
 
   data() {
     return {
-      keyword:''
+      keyword:'',
     };
   },
   methods: {
@@ -83,6 +92,14 @@ export default {
       this.$bus.$on('clearkeyword', () => {
       this.keyword = '';
     });
+    // this.$store.dispatch('getUserInfo');
+
+    },
+    computed:{
+      isShow(){
+       return this.$store.state.user.userInfo.loginName;
+      },
+    
     }
 };
 </script>

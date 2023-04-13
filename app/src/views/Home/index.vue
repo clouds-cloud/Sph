@@ -47,8 +47,7 @@ export default {
   mounted(){
     //派发action，通过vuex发起Ajax请求，将数据存储在仓库当中
     this.$store.dispatch('getFloorList');
- 
-    
+    this.$store.dispatch('getUserInfo');
   },
   computed:{
     ...mapState({
