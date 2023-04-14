@@ -162,7 +162,7 @@ Vue.use(Card);
 Vue.use(Rate);
 Vue.use(Steps);
 Vue.use(Step);
-Vue.use(Carousel);
+// Vue.use(Carousel);
 Vue.use(CarouselItem);
 Vue.use(Collapse);
 Vue.use(CollapseItem);

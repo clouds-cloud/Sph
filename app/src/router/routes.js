@@ -76,10 +76,10 @@ const routes = [
         meta: { isShow: false }
     },
     {
-        path: '/trade',
-        name: 'trade',
+        path: '/paysuccess',
+        name: 'paysuccess',
         component: () =>
-            import ( /* webpackChunkName: "about" */ '../views/Trade'),
+            import ( /* webpackChunkName: "about" */ '../views/PaySuccess'),
         meta: { isShow: false }
     },
     {
