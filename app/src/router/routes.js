@@ -67,6 +67,27 @@ const routes = [
         component: () =>
             import ( /* webpackChunkName: "about" */ '../views/Trade'),
         meta: { isShow: false }
+    },
+    {
+        path: '/pay',
+        name: 'pay',
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/Pay'),
+        meta: { isShow: false }
+    },
+    {
+        path: '/trade',
+        name: 'trade',
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/Trade'),
+        meta: { isShow: false }
+    },
+    {
+        path: '/trade',
+        name: 'trade',
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/Trade'),
+        meta: { isShow: false }
     }
 ]
 export default routes
