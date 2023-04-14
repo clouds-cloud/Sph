@@ -56,7 +56,7 @@ router.beforeEach(async(to, from, next) => {
 
     if (token) {
         //已经登录而且还想去登录------不行
-        if (to.path == "/login") {
+        if (to.path == "/login" || to.path == "/register") {
             next("/home");
         } else {
             //已经登陆了,访问的是非登录与注册
@@ -83,22 +83,22 @@ router.beforeEach(async(to, from, next) => {
     } else {
         //未登录：不能去交易相关、不能去支付相关【pay|paysuccess】、不能去个人中心
         //未登录去上面这些路由-----登录
-        // let toPath = to.path;
-        // if (toPath.includes("/trade") || toPath.includes("/pay") || toPath.includes("/center")) {
-        //     //把未登录的时候向去而没有去成的信息，存储于地址栏中【路由】
-        //     next("/login?redirect=" + toPath);
-        //     // console.log(toPath);
-        // } else {
-        //去的不是上面这些路由（home|search|shopCart）---放行
-        // next();
-        // }
-
-
-        if (to.path == '/shopCart') {
-            next('/')
+        let toPath = to.path;
+        if (toPath.includes("/trade") || toPath.includes("/pay") || toPath.includes("/center")) {
+            //把未登录的时候向去而没有去成的信息，存储于地址栏中【路由】
+            next("/login?redirect=" + toPath);
+            // console.log(toPath);
         } else {
-            next()
+            // 去的不是上面这些路由（ home | search | shopCart）-- - 放行
+            next();
         }
+
+
+        // if (to.path == '/shopCart') {
+        //     next('/')
+        // } else {
+        //     next()
+        // }
     }
 })
 export default router

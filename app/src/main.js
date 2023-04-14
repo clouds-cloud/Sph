@@ -9,8 +9,17 @@ import * as API from '@/api'
 import typeNav from '@/components/typeNav'
 import Carousel from '@/components/Carousel'
 import Pagination from '@/components/Pagination'
-
-
+//引入图片懒加载
+import VueLazyload from 'vue-lazyload'
+// Vue.use(VueLazyload)
+// Vue.use(VueLazyload,
+//         {
+//               preLoad: 1.3,
+//               // error: 'dist/error.png',
+//               loading: img,
+//               attempt: 1
+//           }
+//     )
 //引入swiper样式
 import 'swiper/css/swiper.css'
 // import { reqCategoryList } from '@/api'
@@ -193,8 +202,8 @@ Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
-
-
+//引入表单校验插件
+import "@/plugins/validate";
 
 new Vue({
     router,

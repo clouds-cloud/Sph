@@ -59,21 +59,38 @@ const routes = [
         name: 'shopCart',
         component: () =>
             import ( /* webpackChunkName: "about" */ '../views/ShopCart'),
-        meta: { isShow: false }
+        meta: { isShow: false },
+
     },
     {
         path: '/trade',
         name: 'trade',
         component: () =>
             import ( /* webpackChunkName: "about" */ '../views/Trade'),
-        meta: { isShow: false }
+        meta: { isShow: false },
+        // 路由独享守卫
+        beforeEnter: (to, from, next) => {
+            if (from.path == '/shopCart') {
+                next()
+            } else {
+                next(false)
+            }
+        }
     },
     {
         path: '/pay',
         name: 'pay',
         component: () =>
             import ( /* webpackChunkName: "about" */ '../views/Pay'),
-        meta: { isShow: false }
+        meta: { isShow: false },
+        // 路由独享守卫
+        beforeEnter: (to, from, next) => {
+            if (from.path == '/trade') {
+                next()
+            } else {
+                next(false)
+            }
+        }
     },
     {
         path: '/paysuccess',
@@ -83,11 +100,22 @@ const routes = [
         meta: { isShow: false }
     },
     {
-        path: '/trade',
-        name: 'trade',
+        path: '/center',
+        name: 'center',
+        redirect: '/center/myorder',
         component: () =>
-            import ( /* webpackChunkName: "about" */ '../views/Trade'),
-        meta: { isShow: false }
-    }
+            import ( /* webpackChunkName: "about" */ '../views/Center'),
+        meta: { isShow: false },
+        children: [{
+            path: 'myorder',
+            component: () =>
+                import ( /* webpackChunkName: "about" */ '../views/Center/myOrder'),
+        }, {
+            path: 'grouporder',
+            component: () =>
+                import ( /* webpackChunkName: "about" */ '../views/Center/groupOrder'),
+        }]
+    },
+
 ]
 export default routes
