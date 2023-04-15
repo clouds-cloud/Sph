@@ -113,6 +113,10 @@
       },
      async userRegister(){
         // this.$router.push('/login')
+        const success = await this.$validator.validateAll();
+      //全部表单验证成功，在向服务器发请求，进行祖册
+      //只要有一个表单没有成功，不会发请求
+      if (success) {
         try {
           const {phone,code,password,repassWord} = this;
         (phone&&code&&password==repassWord)&& await this.$store.dispatch('getRegister',{
@@ -122,7 +126,7 @@
         } catch (error) {
           
         }
-      
+      }
       }
     },
 
